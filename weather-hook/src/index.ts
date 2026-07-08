@@ -50,7 +50,11 @@ const res = await fetch(`${webhook_url}?wait=true`, {
     }),
 });
 
+console.log(res.status);
 const message = await res.json();
+console.log(message);
+
+//const message = await res.json();
 
 // ---------- メッセージIDを保存 ----------
 await fs.writeFile(
