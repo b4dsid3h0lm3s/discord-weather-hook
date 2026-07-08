@@ -29,7 +29,7 @@ try {
         await fs.readFile("message.json", "utf8")
     );
 
-    await fetch(
+    const deleteRes = await fetch(
         `${webhook_url}/messages/${saved.messageId}`,
         {
             method: "DELETE",
@@ -50,9 +50,7 @@ const res = await fetch(`${webhook_url}?wait=true`, {
     }),
 });
 
-console.log(res.status);
 const message = await res.json();
-console.log(message);
 
 //const message = await res.json();
 
