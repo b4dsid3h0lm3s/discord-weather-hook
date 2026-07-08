@@ -9,9 +9,9 @@ jobs:
   notify:
     runs-on: ubuntu-latest
 
-  defaults:
-    run:
-      working-directory: weather-hook
+    defaults:
+      run:
+        working-directory: weather-hook
 
     steps:
       - uses: actions/checkout@v4
