@@ -8,26 +8,27 @@ if (!webhook_url) {
     throw new Error("DISCORD_WEB_HOOK is not set.")
 }
 
+class Crowller {
+    private url = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/130000.json'
+    async getRawHtml(){
+        const result = await superagent.get(this.url);
+        const data = JSON.parse(result.text);
+        return data.text;
+    }
+}
+
+const crowller = new Crowller()
+
+const text  = await crowller.getRawHtml();
+
+console.log(text);
+
 await fetch(webhook_url, {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
     },
     body: JSON.stringify({
-        content: "Hello, Discord!"
+        content: text,
     }),
 });
-
-
-class Crowller {
-    private url = "http://https://www.jma.go.jp/bosai/forecast/data/overview_forecast/130000.json"
-    constructor(){
-         this.getRawHtml();
-    }
-    async getRawHtml(){
-        const result = await superagent.get(this.url);
-        console.log(result.text)
-    }
-}
-
-const crowller = new Crowller()
