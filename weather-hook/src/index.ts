@@ -1,5 +1,7 @@
 import "dotenv/config";
 import superagent from 'superagent'
+import  fs  from "node:fs/promises";
+
 console.log(process.cwd());
 
 const webhook_url = process.env.DISCORD_WEB_HOOK
@@ -21,9 +23,24 @@ const crowller = new Crowller()
 
 const text  = await crowller.getRawHtml();
 
-console.log(text);
+// ---------- 前回のメッセージを削除 ----------
+try {
+    const saved = JSON.parse(
+        await fs.readFile("message.json", "utf8")
+    );
 
-await fetch(webhook_url, {
+    await fetch(
+        `${webhook_url}/messages/${saved.messageId}`,
+        {
+            method: "DELETE",
+        }
+    );
+} catch {
+    // 初回実行なら何もしない
+}
+
+// ---------- 新しい通知 ----------
+const res = await fetch(`${webhook_url}?wait=true`, {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
@@ -32,3 +49,19 @@ await fetch(webhook_url, {
         content: text,
     }),
 });
+
+const message = await res.json();
+
+// ---------- メッセージIDを保存 ----------
+await fs.writeFile(
+    "message.json",
+    JSON.stringify(
+        {
+            messageId: message.id,
+        },
+        null,
+        2
+    )
+);
+
+console.log("送信完了");
