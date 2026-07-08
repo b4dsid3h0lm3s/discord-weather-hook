@@ -1,8 +1,3 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 
-console.log("Hello,World");
-dotenv.config({
-    path: "../.env"
-});
-
-
+console.log(`Hello WebHook, ${process.env.MESSAGE}`);
