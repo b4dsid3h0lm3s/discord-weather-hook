@@ -1,7 +1,5 @@
 import "dotenv/config";
 console.log(process.cwd());
-console.log(`Hello , ${process.env.MESSAGE}`);
-console.log(`Webhook, ${process.env.DISCORD_WEB_HOOK}`)
 
 const webhook_url = process.env.DISCORD_WEB_HOOK
 
